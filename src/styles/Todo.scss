@@ -44,6 +44,10 @@
         width: 50px;
         font-size: 0;
         position: relative;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &::before {
             position: absolute;
@@ -53,10 +57,6 @@
             transform: rotate(90deg);
             z-index: 1;
             display: block;
-            width: 30px;
-            height: 30px;
-            left: 10px;
-            top: -10px;
         }
 
         &:hover {
@@ -222,6 +222,19 @@
                 border: 1px solid rgb(247, 210, 210);
                 border-radius: 3px;
             }
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .active {
+            border: 1px solid rgb(223, 170, 170);
+            border-radius: 3px;
+
+            &:hover {
+                border: 1px solid rgb(223, 170, 170);
+            }
         }
     }
 
@@ -235,6 +248,10 @@
         &:hover {
             cursor: pointer;
             text-decoration: underline;
+        }
+
+        &:focus {
+            outline: none;
         }
     }
 }

@@ -4,23 +4,14 @@ import TodoList from './TodoList';
 import TodoFilter from './TodoFilter';
 
 class Todo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todoList: [],
-      value: '',
-      nowShowing: 'All',
-      allChecked: false,
-      checkAllMark() {
-        if(this.todoList.length) {
-          const allMark = this.todoList.every(item => item.completed);
-          this.allChecked = allMark;
-        }
-      }
-    };
-  }
+  state = {
+    todoList: [],
+    value: '',
+    nowShowing: 'All',
+    allChecked: false
+  };
 
-  handleSubmit =  (e) => {
+  handleSubmit = (e) => {
     const newTodo = {
       value: this.state.value,
       completed: false,
@@ -36,18 +27,21 @@ class Todo extends Component {
     }
 
     e.preventDefault();
+    this.checkAllMark();
   }
 
-  handleChangeInput = (e) => this.setState({value: e.currentTarget.value});
+  handleChangeInput = (e) => this.setState({ value: e.currentTarget.value });
 
   handleChecked = (id) => {
     this.setState(state => {
       const currentItem = this.searchCurrentItem(state, id);
       currentItem.completed = !currentItem.completed;
-      return { 
+
+      return {
         currentItem
       }
     });
+    this.checkAllMark();
   }
 
   deleteTodo = (id) => {
@@ -55,18 +49,20 @@ class Todo extends Component {
       const currentItemIndex = state.todoList.findIndex(item => item.id === id);
       const newList = state.todoList.splice(currentItemIndex, 1);
       return {
-        newList 
+        newList
       }
     });
+    this.checkAllMark();
   }
 
   clearCompleted = () => {
-    this.setState(state => { 
+    this.setState(state => {
       const newList = state.todoList.filter(item => !item.completed);
       return {
         todoList: newList
       }
-    });  
+    });
+    this.checkAllMark();
   }
 
   filterTodo = (e) => {
@@ -86,9 +82,9 @@ class Todo extends Component {
 
   countInProgress = () => {
     let count = 0;
-    if(this.state.todoList.length) {
+    if (this.state.todoList.length) {
       this.state.todoList.forEach(item => {
-        if(!item.completed) {
+        if (!item.completed) {
           count += 1;
           return count;
         }
@@ -122,7 +118,7 @@ class Todo extends Component {
     const currentItem = this.searchCurrentItem(this.state, id);
     const newValue = e.currentTarget.value;
     currentItem.value = newValue;
-    this.setState({currentItem});
+    this.setState({ currentItem });
   }
 
   handleBlurEditTodo = (id) => {
@@ -131,32 +127,42 @@ class Todo extends Component {
       this.deleteTodo(id);
     } else {
       currentItem.editFlag = false;
-      this.setState({currentItem});
+      this.setState({ currentItem });
     }
   }
 
+  checkAllMark() {
+    this.setState(state => {
+      const allMark = state.todoList.every(item => item.completed);
+      return {
+        allChecked: allMark
+      }
+    });
+  }
+
+  filteredTodos(todoList) {
+    if (this.state.nowShowing === 'All') return todoList;
+    if (this.state.nowShowing === 'Active') return todoList.filter((element) => !element.completed);
+    if (this.state.nowShowing === 'Completed') return todoList.filter((element) => element.completed);
+  }
+
   render() {
-    const allTodos = this.state.todoList;
-    let filteredTodos = [];
-    if (this.state.nowShowing === 'All') filteredTodos = allTodos;
-    if (this.state.nowShowing === 'Active') filteredTodos = allTodos.filter((element) => !element.completed);
-    if (this.state.nowShowing === 'Completed') filteredTodos = allTodos.filter((element) => element.completed);
-    this.state.checkAllMark();
+    const filteredTodos = this.filteredTodos(this.state.todoList);
 
     return (
       <div className="todo">
         <h1 className="todo__title">todos</h1>
         <div className="todo__wrapper">
-          <TodoAdd 
-            onSubmit={this.handleSubmit} 
-            value={this.state.value} 
+          <TodoAdd
+            onSubmit={this.handleSubmit}
+            value={this.state.value}
             onChange={this.handleChangeInput}
             list={this.state.todoList.length}
             markAll={this.markAll}
             checked={this.state.allChecked}
           />
-          <TodoList 
-            list={filteredTodos} 
+          <TodoList
+            list={filteredTodos}
             onChange={this.handleChecked}
             onClick={this.deleteTodo}
             onDoubleClick={this.editTodoItem}
@@ -164,11 +170,11 @@ class Todo extends Component {
             onChangeEdit={this.handleChangeEditTodo}
             onBlur={this.handleBlurEditTodo}
           />
-          <TodoFilter 
+          <TodoFilter
             count={this.countInProgress()}
             onClick={this.clearCompleted}
             filter={this.filterTodo}
-            list={allTodos} 
+            list={this.state.todoList}
           />
         </div>
       </div>

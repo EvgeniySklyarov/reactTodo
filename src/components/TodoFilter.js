@@ -11,7 +11,7 @@ export default function TodoFilter(props) {
         </span>
         <ul className="todo-filter__list">
           <li className="todo-filter__item">
-            <button onClick={props.filter} value="All">All</button>
+            <button onClick={props.filter} value="All" className="active">All</button>
           </li>
           <li className="todo-filter__item">
             <button onClick={props.filter} value="Active">Active</button>
