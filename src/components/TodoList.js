@@ -14,34 +14,44 @@ export default class TodoList extends Component {
     }
 
     createTodoItems = () => {
-      return this.props.list.map((item) =>
+      const {
+        list, 
+        onChange, 
+        onDoubleClick, 
+        onClick, 
+        onSubmit, 
+        onBlur, 
+        onChangeEdit
+      } = this.props;
+      
+      return list.map((item) =>
         <li key={item.id} className="todo-list__item">
           <div className="todo-list__checkbox">
             <input 
               type="checkbox" 
               checked={item.completed}
               id={item.id}
-              onChange={() => this.props.onChange(item.id)}
+              onChange={() => onChange(item.id)}
             />
             <label htmlFor={item.id}></label>
           </div>
           <span 
             className={"todo-list__description " + (item.completed ? "todo-list__description_completed" : '')}
-            onDoubleClick={() => this.props.onDoubleClick(item.id)}
+            onDoubleClick={() => onDoubleClick(item.id)}
           >
             {item.value}
           </span>
-          <button className="todo-list__destroy" onClick={() => this.props.onClick(item.id)}>Del</button>
+          <button className="todo-list__destroy" onClick={() => onClick(item.id)}>Del</button>
           {
             item.editFlag &&
             <form 
               className={"todo-edit-form"}
-              onSubmit={(e) => this.props.onSubmit(item.id, e)}
+              onSubmit={(e) => onSubmit(item.id, e)}
             >
               <input 
                 defaultValue={item.value}
-                onBlur={(e) => this.props.onBlur(item.id, e)}
-                onChange={(e) => this.props.onChangeEdit(item.id, e)}
+                onBlur={(e) => onBlur(item.id, e)}
+                onChange={(e) => onChangeEdit(item.id, e)}
                 ref={this.editInput}
               />
             </form>
