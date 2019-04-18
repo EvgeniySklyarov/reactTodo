@@ -140,15 +140,13 @@ class Todo extends Component {
     });
   }
 
-  filteredTodos(todoList) {
-    if (this.state.nowShowing === 'All') return todoList;
-    if (this.state.nowShowing === 'Active') return todoList.filter((element) => !element.completed);
-    if (this.state.nowShowing === 'Completed') return todoList.filter((element) => element.completed);
+  filteredTodos() {
+    if (this.state.nowShowing === 'All') return this.state.todoList;
+    if (this.state.nowShowing === 'Active') return this.state.todoList.filter((element) => !element.completed);
+    if (this.state.nowShowing === 'Completed') return this.state.todoList.filter((element) => element.completed);
   }
 
   render() {
-    const filteredTodos = this.filteredTodos(this.state.todoList);
-
     return (
       <div className="todo">
         <h1 className="todo__title">todos</h1>
@@ -162,7 +160,7 @@ class Todo extends Component {
             checked={this.state.allChecked}
           />
           <TodoList
-            list={filteredTodos}
+            list={this.filteredTodos()}
             onChange={this.handleChecked}
             onClick={this.deleteTodo}
             onDoubleClick={this.editTodoItem}
@@ -175,6 +173,7 @@ class Todo extends Component {
             onClick={this.clearCompleted}
             filter={this.filterTodo}
             list={this.state.todoList}
+            nowShowing={this.state.nowShowing}
           />
         </div>
       </div>

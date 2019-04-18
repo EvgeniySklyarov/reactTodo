@@ -13,8 +13,8 @@ export default class TodoList extends Component {
       }
     }
 
-    createTodoItems = (list) => {
-      const listItems = this.props.list.map((item, i) =>
+    createTodoItems = () => {
+      return this.props.list.map((item) =>
         <li key={item.id} className="todo-list__item">
           <div className="todo-list__checkbox">
             <input 
@@ -48,15 +48,12 @@ export default class TodoList extends Component {
           }
         </li>
       );
-      return listItems;
     }
   
     render() {
-      const listItems = this.createTodoItems(this.props.list);  
-
       return (
         <ul className="todo-list">
-          {listItems}
+          {this.createTodoItems()}
         </ul>
       );
     }

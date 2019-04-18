@@ -57,6 +57,7 @@
             transform: rotate(90deg);
             z-index: 1;
             display: block;
+            left: 17px;
         }
 
         &:hover {
@@ -113,6 +114,10 @@
             background-image: url('../images/circle.svg');
             background-repeat: no-repeat;
             background-position: center center;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
@@ -196,6 +201,12 @@
 
     &__count {
         margin-left: 15px;
+        display: flex;
+        width: 100px;
+    }
+
+    &__num {
+        margin-right: 5px;
     }
 
     &__list {
@@ -206,7 +217,7 @@
         width: 230px;
         justify-content: space-between;
         align-items: center;
-        margin-left: 90px;
+        margin-left: 60px;
     }
 
     &__item {

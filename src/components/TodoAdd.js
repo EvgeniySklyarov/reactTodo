@@ -1,15 +1,15 @@
 import React from 'react';
 
-export default function TodoAdd(props) {
+export default function TodoAdd({ onSubmit, list, markAll, checked, value, onChange }) {
     return (
-      <form className="todo-form" onSubmit={props.onSubmit}>
-        {props.list > 0 &&
+      <form className="todo-form" onSubmit={onSubmit}>
+        {list > 0 &&
           <>
             <input 
               type="checkbox" 
               id="mark-all" 
-              onChange={props.markAll}
-              checked={props.checked}
+              onChange={markAll}
+              checked={checked}
             />
             <label className="todo-form__mark-all" htmlFor="mark-all"></label>
           </>
@@ -18,8 +18,8 @@ export default function TodoAdd(props) {
           className="todo-form__fields"
           type="text" 
           placeholder="What needs to be done?" 
-          value={props.value}
-          onChange={props.onChange}
+          value={value}
+          onChange={onChange}
           autoFocus
         />
       </form>
